@@ -105,7 +105,7 @@ collectionBestPlayers = db["bestPlayers"]
 
 @app.route("/")
 def home():
-    sensor()
+    # sensor()
     return "Welcome to Brawlhalla Best Country Players Ranks API :) !"
 
 @app.route("/api")

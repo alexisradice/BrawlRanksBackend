@@ -103,7 +103,7 @@ sched.start()
 
 @app.route("/")
 def home():
-    return "Welcome to Brawl Country Ranks API :) !"
+    return "Welcome to Brawlhalla Best Country Players Ranks API :) !"
 
 @app.route("/api")
 def api():

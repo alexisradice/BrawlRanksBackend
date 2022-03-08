@@ -108,6 +108,5 @@ def home():
 @app.route("/api")
 def api():
     return jsonify(list(collectionBestPlayers.find({})))
-
-if __name__ == "__main__":
-    app.run()
+    
+app.run()

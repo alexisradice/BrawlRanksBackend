@@ -1,4 +1,4 @@
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.schedulers.background import BackgroundScheduler, BlockingScheduler
 from flask import Flask, jsonify
 import requests
 import pymongo
@@ -95,10 +95,12 @@ cluster = pymongo.MongoClient(os.getenv("MONGODB_URL"), ssl_cert_reqs=ssl.CERT_N
 db = cluster["brawlData"]
 collectionBestPlayers = db["bestPlayers"]
 
-sched = BackgroundScheduler(next_run_time=datetime.now)
+# sched = BackgroundScheduler(next_run_time=datetime.now)
+# sched = BackgroundScheduler()
+sched = BlockingScheduler()
 sched.configure(timezone=pytz.timezone('Europe/Paris'))
 sched.add_job(sensor,'interval',minutes=20, next_run_time=datetime.now())
-
+# sched.add_job(sensor,'interval',minutes=20)
 sched.start()
 
 @app.route("/")
@@ -108,5 +110,5 @@ def home():
 @app.route("/api")
 def api():
     return jsonify(list(collectionBestPlayers.find({})))
-    
+
 app.run()

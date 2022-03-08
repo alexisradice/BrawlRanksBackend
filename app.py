@@ -8,7 +8,7 @@ from datetime import datetime
 import pytz
 from dotenv import load_dotenv
 import os
-'''
+
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
@@ -87,13 +87,13 @@ def bestPlayers(choice):
         collectionBestPlayers.delete_one({"_id":i})
         collectionBestPlayers.insert_one(post)
 
-'''
+
 app = Flask(__name__)
-'''
+
 cluster = pymongo.MongoClient(os.getenv("MONGODB_URL"), ssl_cert_reqs=ssl.CERT_NONE)
 db = cluster["brawlData"]
 collectionBestPlayers = db["bestPlayers"]
-'''
+
 # sched = BackgroundScheduler(next_run_time=datetime.now)
 # sched = BackgroundScheduler()
 # sched = BlockingScheduler()
@@ -104,12 +104,12 @@ collectionBestPlayers = db["bestPlayers"]
 
 @app.route("/")
 def home():
-    # sensor()
+    sensor()
     return "Welcome to Brawlhalla Best Country Players Ranks API :) !"
-'''
+
 @app.route("/api")
 def api():
     return jsonify(list(collectionBestPlayers.find({})))
-'''
+
 if __name__ == "__main__":
     app.run()

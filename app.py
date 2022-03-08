@@ -36,7 +36,7 @@ def bestPlayers(choice):
     print(df)
     players = df.to_dict()
     print(players)
-
+    '''
     collectionBestPlayers.delete_many({})
     cmp = 0
     for i in range(0, len(df)):
@@ -45,7 +45,7 @@ def bestPlayers(choice):
             post = {"_id":cmp , "name": players['Name'][i], "brawlID":players['Brawlhalla ID'][i]}
             cmp += 1
             collectionBestPlayers.insert_one(post)
-
+    '''
     numID = collectionBestPlayers.count_documents({})
     print(numID)
 

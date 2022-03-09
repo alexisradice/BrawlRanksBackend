@@ -108,7 +108,7 @@ def home():
 
 @app.route("/api")
 def api():
-    return jsonify(list(collectionBestPlayers.find({})))
+    return jsonify(list(collectionBestPlayers.find().sort("rating", -1)))
 
 if __name__ == "__main__":
     app.run()

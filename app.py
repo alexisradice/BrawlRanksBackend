@@ -113,11 +113,11 @@ def api():
 
 @app.route("/api/legends/<string:legend>", methods=["GET"])
 def legends(legend):
-    return send_file("img\\legends\\" + str(legend) + ".png")
+    return send_file("img/legends/" + str(legend) + ".png")
 
 @app.route("/api/imgLoading")
 def imgLoading():
-    return send_file("img\\imgLoading.jpg")
+    return send_file("img/imgLoading.jpg")
 
 if __name__ == "__main__":
     app.run()

@@ -19,6 +19,7 @@ class DataStore():
 data = DataStore()
 
 def sensor():
+    requests.get('https://brawlranks-api.herokuapp.com/').content
     if data.test == 0:
         data.test = 1
         print("0")

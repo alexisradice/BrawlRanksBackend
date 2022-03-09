@@ -1,5 +1,5 @@
-from apscheduler.schedulers.background import BackgroundScheduler, BlockingScheduler
-from flask import Flask, jsonify
+from apscheduler.schedulers.background import BackgroundScheduler
+from flask import Flask, jsonify, request, send_file
 import requests
 import pymongo
 import ssl
@@ -109,6 +109,14 @@ def home():
 @app.route("/api")
 def api():
     return jsonify(list(collectionBestPlayers.find().sort("rating", -1)))
+
+@app.route("/api/legends/<string:legend>", methods=["GET"])
+def legends(legend):
+    return send_file("img\\legends\\" + str(legend) + ".png")
+
+@app.route("/api/imgLoading")
+def imgLoading():
+    return send_file("img\\imgLoading.jpg")
 
 if __name__ == "__main__":
     app.run()

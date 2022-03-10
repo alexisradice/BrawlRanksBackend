@@ -37,16 +37,18 @@ def bestPlayers(choice):
     print(df)
     players = df.to_dict()
     print(players)
+    
     '''
     collectionBestPlayers.delete_many({})
     cmp = 0
     for i in range(0, len(df)):
         print(players['Brawlhalla ID'][i])
         if (players['Brawlhalla ID'][i] != "nan"):
-            post = {"_id":cmp , "name": players['Name'][i], "brawlID":players['Brawlhalla ID'][i]}
+            post = {"_id":cmp , "name": players['Name'][i], "brawlID":players['Brawlhalla ID'][i], "earnings":players['Earnings'][i]}
             cmp += 1
             collectionBestPlayers.insert_one(post)
     '''
+    
     numID = collectionBestPlayers.count_documents({})
     print(numID)
 
@@ -63,6 +65,7 @@ def bestPlayers(choice):
         print(collectionBestPlayers.find_one({"_id":i}))
         name = collectionBestPlayers.find_one({"_id":i})['name']
         brawlID = collectionBestPlayers.find_one({"_id":i})['brawlID']
+        earnings = collectionBestPlayers.find_one({"_id":i})['earnings']
         print(name)
         print(brawlID)
 
@@ -83,7 +86,6 @@ def bestPlayers(choice):
         trueLevel = player.json()["dataClientJSON"]["trueLevel"]
         passiveAgressive = player.json()["dataClientJSON"]["passiveAgressive"]
         timePlayed = player.json()["dataClientJSON"]["timePlayed"]
-        earnings = players['Earnings'][i]
 
         post = {"_id":i , "name": name, "inGameName": playerName,"brawlID":brawlID, "level":level, "region":region, "rating":rating, "peakRating":peakRating, "globalRank":globalRank, "regionRank":regionRank, "mainLevelCharacter":mainLevelCharacter, "mainRankedCharacter":mainRankedCharacter, "pictureMainLevelCharacter":pictureMainLevelCharacter, "pictureMainRankedCharacter":pictureMainRankedCharacter, "mainWeapon":mainWeapon, "trueLevel":trueLevel, "passiveAgressive":passiveAgressive, "timePlayed":timePlayed, "earnings":earnings, "country":country} 
         collectionBestPlayers.delete_one({"_id":i})

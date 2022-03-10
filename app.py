@@ -31,7 +31,7 @@ def sensor():
 
 def bestPlayers(choice):
     data = pd.read_excel (r'bestPlayers.xlsx') 
-    df = pd.DataFrame(data, columns= ['Name', 'Brawlhalla ID'])
+    df = pd.DataFrame(data, columns= ['Name', 'Brawlhalla ID', 'Earnings'])
     df['Brawlhalla ID'] = df['Brawlhalla ID'].astype(str)          
     df['Brawlhalla ID'] = df['Brawlhalla ID'].str.split('.').str[0]
     print(df)
@@ -83,8 +83,9 @@ def bestPlayers(choice):
         trueLevel = player.json()["dataClientJSON"]["trueLevel"]
         passiveAgressive = player.json()["dataClientJSON"]["passiveAgressive"]
         timePlayed = player.json()["dataClientJSON"]["timePlayed"]
+        earnings = players['Earnings'][i]
 
-        post = {"_id":i , "name": name, "inGameName": playerName,"brawlID":brawlID, "level":level, "region":region, "rating":rating, "peakRating":peakRating, "globalRank":globalRank, "regionRank":regionRank, "mainLevelCharacter":mainLevelCharacter, "mainRankedCharacter":mainRankedCharacter, "pictureMainLevelCharacter":pictureMainLevelCharacter, "pictureMainRankedCharacter":pictureMainRankedCharacter, "mainWeapon":mainWeapon, "trueLevel":trueLevel, "passiveAgressive":passiveAgressive, "timePlayed":timePlayed, "country":country} 
+        post = {"_id":i , "name": name, "inGameName": playerName,"brawlID":brawlID, "level":level, "region":region, "rating":rating, "peakRating":peakRating, "globalRank":globalRank, "regionRank":regionRank, "mainLevelCharacter":mainLevelCharacter, "mainRankedCharacter":mainRankedCharacter, "pictureMainLevelCharacter":pictureMainLevelCharacter, "pictureMainRankedCharacter":pictureMainRankedCharacter, "mainWeapon":mainWeapon, "trueLevel":trueLevel, "passiveAgressive":passiveAgressive, "timePlayed":timePlayed, "earnings":earnings, "country":country} 
         collectionBestPlayers.delete_one({"_id":i})
         collectionBestPlayers.insert_one(post)
 
@@ -96,11 +97,8 @@ db = cluster["brawlData"]
 collectionBestPlayers = db["bestPlayers"]
 
 sched = BackgroundScheduler(next_run_time=datetime.now)
-# sched = BackgroundScheduler()
-# sched = BlockingScheduler()
 sched.configure(timezone=pytz.timezone('Europe/Paris'))
 sched.add_job(sensor,'interval',minutes=20, next_run_time=datetime.now())
-# sched.add_job(sensor,'interval',minutes=20)
 sched.start()
 
 @app.route("/")

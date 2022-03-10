@@ -8,6 +8,7 @@ from datetime import datetime
 import pytz
 from dotenv import load_dotenv
 import os
+from flask_cors import CORS
 
 load_dotenv()
 
@@ -93,6 +94,8 @@ def bestPlayers(choice):
 
 
 app = Flask(__name__)
+
+CORS(app)
 
 cluster = pymongo.MongoClient(os.getenv("MONGODB_URL"), ssl_cert_reqs=ssl.CERT_NONE)
 db = cluster["brawlData"]

@@ -1,1 +1,1 @@
-# BrawlhallaBestCountryPlayersRanksBackend
+# BrawlRanksBackend

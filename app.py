@@ -20,15 +20,19 @@ class DataStore():
 data = DataStore()
 
 def sensor():
-    requests.get('https://brawlranks-api.herokuapp.com/').content
+    requests.get(os.getenv("FLASK_API")).content
     if data.test == 0:
         data.test = 1
         print("0")
         bestPlayers(0)
     elif data.test == 1:
-        data.test = 0
+        data.test = 2
         print("1")
         bestPlayers(1)
+    elif data.test == 2:
+        data.test = 0
+        print("2")
+        bestPlayers(2)
 
 def bestPlayers(choice):
     data = pd.read_excel (r'bestPlayers.xlsx') 
@@ -57,9 +61,12 @@ def bestPlayers(choice):
     
     if (choice == 0):
         start = 0
-        end = int(numID/2)
+        end = int(numID/3)
     elif (choice == 1):
-        start = int(numID/2)
+        start = int(numID/3)
+        end = int((numID/3) * 2)
+    elif (choice == 2):
+        start = int((numID/3) * 2)
         end = numID
 
     for i in range(start, end):
@@ -103,7 +110,7 @@ collectionBestPlayers = db["bestPlayers"]
 
 sched = BackgroundScheduler(next_run_time=datetime.now)
 sched.configure(timezone=pytz.timezone('Europe/Paris'))
-sched.add_job(sensor,'interval',minutes=20, next_run_time=datetime.now())
+sched.add_job(sensor,'interval',minutes=16, next_run_time=datetime.now())
 sched.start()
 
 @app.route("/")

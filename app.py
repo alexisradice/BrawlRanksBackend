@@ -110,7 +110,7 @@ collectionBestPlayers = db["bestPlayers"]
 
 sched = BackgroundScheduler(next_run_time=datetime.now)
 sched.configure(timezone=pytz.timezone('Europe/Paris'))
-sched.add_job(sensor,'interval',minutes=16, next_run_time=datetime.now())
+sched.add_job(sensor,'interval',minutes=18, next_run_time=datetime.now())
 sched.start()
 
 @app.route("/")

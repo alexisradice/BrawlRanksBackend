@@ -43,7 +43,7 @@ def bestPlayers(choice):
     players = df.to_dict()
     print(players)
     
-    '''
+    
     collectionBestPlayers.delete_many({})
     cmp = 0
     for i in range(0, len(df)):
@@ -52,7 +52,7 @@ def bestPlayers(choice):
             post = {"_id":cmp , "name": players['Name'][i], "brawlID":players['Brawlhalla ID'][i], "earnings":players['Earnings'][i]}
             cmp += 1
             collectionBestPlayers.insert_one(post)
-    '''
+    
     
     numID = collectionBestPlayers.count_documents({})
     print(numID)
@@ -77,27 +77,31 @@ def bestPlayers(choice):
         print(name)
         print(brawlID)
 
-        player = requests.get(os.getenv("MY_API_URL") + str(brawlID))
+        try:
+            player = requests.get(os.getenv("MY_API_URL") + str(brawlID))
 
-        playerName = player.json()["dataClientJSON"]["playerName"]
-        level = player.json()["dataClientJSON"]["level"]
-        region = player.json()["dataClientJSON"]["region"]
-        rating = player.json()["dataClientJSON"]["rating"]
-        peakRating = player.json()["dataClientJSON"]["peakRating"]
-        globalRank = player.json()["dataClientJSON"]["globalRank"]
-        regionRank = player.json()["dataClientJSON"]["regionRank"]
-        mainLevelCharacter = player.json()["dataClientJSON"]["mainLevelCharacter"]
-        mainRankedCharacter = player.json()["dataClientJSON"]["mainRankedCharacter"]
-        pictureMainLevelCharacter = player.json()["dataClientJSON"]["pictureMainLevelCharacter"]
-        pictureMainRankedCharacter = player.json()["dataClientJSON"]["pictureMainRankedCharacter"]
-        mainWeapon = player.json()["dataClientJSON"]["mainWeapon"]
-        trueLevel = player.json()["dataClientJSON"]["trueLevel"]
-        passiveAgressive = player.json()["dataClientJSON"]["passiveAgressive"]
-        timePlayed = player.json()["dataClientJSON"]["timePlayed"]
+            playerName = player.json()["dataClientJSON"]["playerName"]
+            level = player.json()["dataClientJSON"]["level"]
+            region = player.json()["dataClientJSON"]["region"]
+            rating = player.json()["dataClientJSON"]["rating"]
+            peakRating = player.json()["dataClientJSON"]["peakRating"]
+            globalRank = player.json()["dataClientJSON"]["globalRank"]
+            regionRank = player.json()["dataClientJSON"]["regionRank"]
+            mainLevelCharacter = player.json()["dataClientJSON"]["mainLevelCharacter"]
+            mainRankedCharacter = player.json()["dataClientJSON"]["mainRankedCharacter"]
+            pictureMainLevelCharacter = player.json()["dataClientJSON"]["pictureMainLevelCharacter"]
+            pictureMainRankedCharacter = player.json()["dataClientJSON"]["pictureMainRankedCharacter"]
+            mainWeapon = player.json()["dataClientJSON"]["mainWeapon"]
+            trueLevel = player.json()["dataClientJSON"]["trueLevel"]
+            passiveAgressive = player.json()["dataClientJSON"]["passiveAgressive"]
+            timePlayed = player.json()["dataClientJSON"]["timePlayed"]
 
-        post = {"_id":i , "name": name, "inGameName": playerName,"brawlID":brawlID, "level":level, "region":region, "rating":rating, "peakRating":peakRating, "globalRank":globalRank, "regionRank":regionRank, "mainLevelCharacter":mainLevelCharacter, "mainRankedCharacter":mainRankedCharacter, "pictureMainLevelCharacter":pictureMainLevelCharacter, "pictureMainRankedCharacter":pictureMainRankedCharacter, "mainWeapon":mainWeapon, "trueLevel":trueLevel, "passiveAgressive":passiveAgressive, "timePlayed":timePlayed, "earnings":earnings, "country":country} 
-        collectionBestPlayers.delete_one({"_id":i})
-        collectionBestPlayers.insert_one(post)
+            post = {"_id":i , "name": name, "inGameName": playerName,"brawlID":brawlID, "level":level, "region":region, "rating":rating, "peakRating":peakRating, "globalRank":globalRank, "regionRank":regionRank, "mainLevelCharacter":mainLevelCharacter, "mainRankedCharacter":mainRankedCharacter, "pictureMainLevelCharacter":pictureMainLevelCharacter, "pictureMainRankedCharacter":pictureMainRankedCharacter, "mainWeapon":mainWeapon, "trueLevel":trueLevel, "passiveAgressive":passiveAgressive, "timePlayed":timePlayed, "earnings":earnings, "country":country} 
+            collectionBestPlayers.delete_one({"_id":i})
+            collectionBestPlayers.insert_one(post)
+        except:
+            print("Time Out : Next")
+            pass
 
 
 app = Flask(__name__)

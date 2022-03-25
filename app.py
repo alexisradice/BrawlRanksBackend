@@ -95,8 +95,11 @@ def bestPlayers(choice):
             trueLevel = player.json()["dataClientJSON"]["trueLevel"]
             passiveAgressive = player.json()["dataClientJSON"]["passiveAgressive"]
             timePlayed = player.json()["dataClientJSON"]["timePlayed"]
+            winrate = player.json()["dataClientJSON"]["winrate"]
+            clan = player.json()["dataClientJSON"]["clan"]
+            totalCharactersLevels = player.json()["dataClientJSON"]["totalCharactersLevels"]
 
-            post = {"_id":i , "name": name, "inGameName": playerName,"brawlID":brawlID, "level":level, "region":region, "rating":rating, "peakRating":peakRating, "globalRank":globalRank, "regionRank":regionRank, "mainLevelCharacter":mainLevelCharacter, "mainRankedCharacter":mainRankedCharacter, "pictureMainLevelCharacter":pictureMainLevelCharacter, "pictureMainRankedCharacter":pictureMainRankedCharacter, "mainWeapon":mainWeapon, "trueLevel":trueLevel, "passiveAgressive":passiveAgressive, "timePlayed":timePlayed, "earnings":earnings, "country":country} 
+            post = {"_id":i , "name": name, "inGameName": playerName,"brawlID":brawlID, "level":level, "region":region, "rating":rating, "peakRating":peakRating, "globalRank":globalRank, "regionRank":regionRank, "mainLevelCharacter":mainLevelCharacter, "mainRankedCharacter":mainRankedCharacter, "pictureMainLevelCharacter":pictureMainLevelCharacter, "pictureMainRankedCharacter":pictureMainRankedCharacter, "mainWeapon":mainWeapon, "trueLevel":trueLevel, "passiveAgressive":passiveAgressive, "timePlayed":timePlayed, "earnings":earnings, "country":country, "winrate":winrate, "clan":clan, "totalCharactersLevels":totalCharactersLevels} 
             collectionBestPlayers.delete_one({"_id":i})
             collectionBestPlayers.insert_one(post)
         except:

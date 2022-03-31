@@ -103,7 +103,7 @@ def bestPlayers(choice):
             collectionBestPlayers.delete_one({"_id":i})
             collectionBestPlayers.insert_one(post)
         except:
-            print("Time Out : Next")
+            print("Time Out / No Data : Next")
             pass
 
 
@@ -122,9 +122,9 @@ sched.start()
 
 @app.route("/")
 def home():
-    return "Welcome to Brawlhalla Best Country Players Ranks API :) !"
+    return "Welcome to BrawlRanks API :) !"
 
-@app.route("/api")
+@app.route("/api/france/currentSeason")
 def api():
     return jsonify(list(collectionBestPlayers.find().sort("rating", -1)))
 

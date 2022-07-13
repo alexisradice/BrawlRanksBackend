@@ -1,5 +1,5 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask, jsonify, request, send_file, render_template
+from flask import Flask, jsonify, request, send_file, send_from_directory
 import json
 import requests
 import pymongo
@@ -116,11 +116,6 @@ cluster = pymongo.MongoClient(os.getenv("MONGODB_URL"), ssl_cert_reqs=ssl.CERT_N
 db = cluster["brawlData"]
 collectionBestPlayers = db["bestPlayers"]
 
-with open('./json/bestFrancePlayersSeason23.json', 'r') as myfile:
-	dataS23 = myfile.read()
-with open('./json/bestFrancePlayersSeason24.json', 'r') as myfile:
-	dataS24 = myfile.read()
-
 sched = BackgroundScheduler(next_run_time=datetime.now)
 sched.configure(timezone=pytz.timezone('Europe/Paris'))
 sched.add_job(sensor,'interval',minutes=20, next_run_time=datetime.now())
@@ -136,11 +131,11 @@ def currentSeason():
 
 @app.route("/api/france/season23")
 def season23():
-	return render_template('index.html', title="page", jsonfile=json.dumps(dataS23))
+	return send_from_directory("json/", "bestFrancePlayersSeason23.json")
 
 @app.route("/api/france/season24")
 def season24():
-	return render_template('index.html', title="page", jsonfile=json.dumps(dataS24))
+	return send_from_directory("json/", "bestFrancePlayersSeason24.json")
 
 @app.route("/api/legends/<string:legend>", methods=["GET"])
 def legends(legend):

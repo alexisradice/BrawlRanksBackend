@@ -18,6 +18,8 @@ API_KEY = os.getenv("API_KEY")
 FLASK_API = os.getenv("FLASK_API")
 MY_API_URL = os.getenv("MY_API_URL")
 MONGODB_URL = os.getenv("MONGODB_URL")
+BEARER_TOKEN = os.getenv("BEARER_TOKEN")
+URL_UPLOAD = os.getenv("URL_UPLOAD")
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -59,6 +61,15 @@ def sensor():
 		data.test = 0
 		logger.info("Processing choice 2")
 		bestPlayers(2)
+
+	players = list(collectionBestPlayers.find().sort("rating", -1))
+	headers = {'Authorization': f'Bearer {BEARER_TOKEN}'}
+	payload = {
+		'filename': 'currentSeason',
+		'content': players
+	}
+	response = requests.post(URL_UPLOAD, json=payload, headers=headers)
+	logger.info(response.json())
 
 # Function to update the best players in the database
 def bestPlayers(choice):
